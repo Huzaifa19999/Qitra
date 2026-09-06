@@ -16,10 +16,10 @@ export async function sendOrderConfirmation(order: OrderWithItems): Promise<{ su
     }
 
     const itemsSummary = order.items
-      .map(item => `- ${item.quantity}x ${item.product.name} (${formatCurrency(item.price)})`)
+      .map((item: { quantity: any; product: { name: any; }; price: string | number | { toNumber?: () => number; }; }):any => `- ${item.quantity}x ${item.product.name} (${formatCurrency(item.price)})`)
       .join('\n');
 
-    const message = `Hello ${order.customerName},\n\nThank you for your order from The Perfume Store!\n\nOrder Number: ${order.orderNumber}\n\nOrder Details:\n${itemsSummary}\n\nTotal: ${formatCurrency(order.totalAmount)}\n\nDelivery Address:\n${order.address}, ${order.city}\n\nWe will contact you shortly when your order is out for delivery.`;
+    const message = `Hello ${order.customerName},\n\nThank you for your order from the Qitra Perfume Store!\n\nOrder Number: ${order.orderNumber}\n\nOrder Details:\n${itemsSummary}\n\nTotal: ${formatCurrency(order.totalAmount)}\n\nDelivery Address:\n${order.address}, ${order.city}\n\nWe will contact you shortly when your order is out for delivery.`;
 
     const response = await fetch(`https://graph.facebook.com/v17.0/${phoneNumberId}/messages`, {
       method: 'POST',

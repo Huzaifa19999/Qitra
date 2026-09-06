@@ -36,7 +36,7 @@ export default async function AdminDashboardPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-serif text-white">Dashboard</h1>
-        <div className="flex gap-4">
+        <div className="flex gap-3">
           <Link href="/admin/products/new" className="btn-outline-gold px-4 py-2 rounded-lg border border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-colors">
             Add Product
           </Link>
@@ -46,47 +46,87 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="glass-gold p-6 rounded-xl border border-[#d4af37]/20 flex items-center space-x-4">
-          <div className="p-3 bg-[#1a1a2e] rounded-lg text-[#d4af37]">
-            <Package size={24} />
-          </div>
-          <div>
-            <p className="text-gray-400 text-sm font-medium">Total Products</p>
-            <p className="text-2xl font-bold text-white">{totalProducts}</p>
-          </div>
-        </div>
-        
-        <div className="glass-gold p-6 rounded-xl border border-[#d4af37]/20 flex items-center space-x-4">
-          <div className="p-3 bg-[#1a1a2e] rounded-lg text-[#d4af37]">
-            <ShoppingBag size={24} />
-          </div>
-          <div>
-            <p className="text-gray-400 text-sm font-medium">Total Orders</p>
-            <p className="text-2xl font-bold text-white">{totalOrders}</p>
-          </div>
-        </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+  {/* Total Products */}
+  <div className="group relative overflow-hidden rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#161625] to-[#0f0f18] p-6 shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:border-[#d4af37]/50 hover:shadow-xl hover:shadow-[#d4af37]/10">
+    <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#d4af37]/5 blur-2xl transition-all duration-300 group-hover:bg-[#d4af37]/10" />
 
-        <div className="glass-gold p-6 rounded-xl border border-[#d4af37]/20 flex items-center space-x-4">
-          <div className="p-3 bg-[#1a1a2e] rounded-lg text-[#d4af37]">
-            <DollarSign size={24} />
-          </div>
-          <div>
-            <p className="text-gray-400 text-sm font-medium">Revenue</p>
-            <p className="text-2xl font-bold text-white">{formatCurrency(totalRevenue)}</p>
-          </div>
-        </div>
-
-        <div className="glass-gold p-6 rounded-xl border border-red-500/20 flex items-center space-x-4">
-          <div className="p-3 bg-[#1a1a2e] rounded-lg text-red-400">
-            <AlertTriangle size={24} />
-          </div>
-          <div>
-            <p className="text-gray-400 text-sm font-medium">Low Stock Alerts</p>
-            <p className="text-2xl font-bold text-white">{lowStockProducts}</p>
-          </div>
-        </div>
+    <div className="relative flex items-center gap-4">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-[#d4af37]/20 bg-[#d4af37]/10 text-[#d4af37] transition-all duration-300 group-hover:scale-105 group-hover:bg-[#d4af37]/15">
+        <Package size={26} strokeWidth={1.8} />
       </div>
+
+      <div className="min-w-0">
+        <p className="text-sm font-medium text-gray-400">
+          Total Products
+        </p>
+        <p className="mt-1 text-2xl font-bold tracking-tight text-white">
+          {totalProducts}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Total Orders */}
+  <div className="group relative overflow-hidden rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#161625] to-[#0f0f18] p-6 shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:border-[#d4af37]/50 hover:shadow-xl hover:shadow-[#d4af37]/10">
+    <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#d4af37]/5 blur-2xl transition-all duration-300 group-hover:bg-[#d4af37]/10" />
+
+    <div className="relative flex items-center gap-4">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-[#d4af37]/20 bg-[#d4af37]/10 text-[#d4af37] transition-all duration-300 group-hover:scale-105 group-hover:bg-[#d4af37]/15">
+        <ShoppingBag size={26} strokeWidth={1.8} />
+      </div>
+
+      <div className="min-w-0">
+        <p className="text-sm font-medium text-gray-400">
+          Total Orders
+        </p>
+        <p className="mt-1 text-2xl font-bold tracking-tight text-white">
+          {totalOrders}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Revenue */}
+  <div className="group relative overflow-hidden rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#161625] to-[#0f0f18] p-6 shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:border-[#d4af37]/50 hover:shadow-xl hover:shadow-[#d4af37]/10">
+    <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#d4af37]/5 blur-2xl transition-all duration-300 group-hover:bg-[#d4af37]/10" />
+
+    <div className="relative flex items-center gap-4">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-[#d4af37]/20 bg-[#d4af37]/10 text-[#d4af37] transition-all duration-300 group-hover:scale-105 group-hover:bg-[#d4af37]/15">
+        <DollarSign size={26} strokeWidth={1.8} />
+      </div>
+
+      <div className="min-w-0">
+        <p className="text-sm font-medium text-gray-400">
+          Revenue
+        </p>
+        <p className="mt-1 truncate text-2xl font-bold tracking-tight text-white">
+          {formatCurrency(totalRevenue)}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Low Stock */}
+  <div className="group relative overflow-hidden rounded-2xl border border-red-500/20 bg-gradient-to-br from-[#161625] to-[#0f0f18] p-6 shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:border-red-500/40 hover:shadow-xl hover:shadow-red-500/10">
+    <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-red-500/5 blur-2xl transition-all duration-300 group-hover:bg-red-500/10" />
+
+    <div className="relative flex items-center gap-4">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 transition-all duration-300 group-hover:scale-105 group-hover:bg-red-500/15">
+        <AlertTriangle size={26} strokeWidth={1.8} />
+      </div>
+
+      <div className="min-w-0">
+        <p className="text-sm font-medium text-gray-400">
+          Low Stock Alerts
+        </p>
+        <p className="mt-1 text-2xl font-bold tracking-tight text-white">
+          {lowStockProducts}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
       <div className="glass card-dark rounded-xl border border-gray-800 overflow-hidden">
         <div className="p-6 border-b border-gray-800">
@@ -104,7 +144,7 @@ export default async function AdminDashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800">
-              {recentOrders.map((order) => (
+              {recentOrders.map((order:any) => (
                 <tr key={order.id} className="hover:bg-white/5 transition-colors">
                   <td className="px-6 py-4 text-white font-mono">{order.orderNumber}</td>
                   <td className="px-6 py-4 text-gray-300">{order.customerName}</td>
