@@ -14,7 +14,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-5 lg:col-span-1">
             <div>
-              <h3 className="font-heading text-2xl text-[#d4af37] tracking-wider mb-1">LUXE PARFUM</h3>
+              <h3 className="font-heading text-2xl text-[#d4af37] tracking-wider mb-1">QITRA</h3>
               <div className="w-8 h-[2px] bg-gradient-to-r from-[#d4af37] to-[#f0c040] rounded-full" />
             </div>
             <p className="text-sm leading-relaxed text-gray-500">

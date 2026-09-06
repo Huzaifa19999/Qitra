@@ -11,9 +11,19 @@ export default function StorefrontLayout({
   return (
     <CartProvider>
       <Navbar />
-      <main className="min-h-screen pt-[70px] bg-[#0a0a0a] text-gray-100">
+
+      <main
+        className="
+          min-h-screen
+          bg-[#070709]
+          text-[#dcd8d0]
+          pt-[72px]
+          md:pt-[104px]
+        "
+      >
         {children}
       </main>
+
       <Footer />
     </CartProvider>
   );

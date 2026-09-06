@@ -1,16 +1,24 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useCart } from '@/components/CartProvider';
-import { ShoppingBag, Search, Menu, X } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCart } from "@/components/CartProvider";
+import {
+  ShoppingBag,
+  Search,
+  Menu,
+  X,
+  Sparkles,
+  ArrowRight,
+} from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { totalItems } = useCart();
   const [mounted, setMounted] = useState(false);
+
+  const { totalItems } = useCart();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -18,151 +26,611 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 24);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const links = [
-    { name: 'Home', href: '/' },
-    { name: 'Men', href: '/category/men' },
-    { name: 'Women', href: '/category/women' },
-    { name: 'Children', href: '/category/children' },
-    { name: 'Unisex', href: '/category/unisex' },
-    { name: 'All Products', href: '/products' },
+    { name: "Collection", href: "/products" },
+    { name: "Men", href: "/category/men" },
+    { name: "Women", href: "/category/women" },
+    { name: "Unisex", href: "/category/unisex" },
+    { name: "Children", href: "/category/children" },
   ];
 
   const isActive = (href: string) => {
-    if (href === '/') return pathname === '/';
+    if (href === "/products") {
+      return pathname === "/products";
+    }
+
     return pathname.startsWith(href);
   };
 
   return (
     <>
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 h-[72px] transition-all duration-500 ease-out ${
-          scrolled
-            ? 'bg-black/85 backdrop-blur-md border-b border-[#d4af37]/25 shadow-[0_10px_30px_rgba(0,0,0,0.8)]'
-            : 'bg-gradient-to-b from-black/80 via-black/30 to-transparent border-b border-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-          {/* Brand */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link href="/" className="group flex flex-col leading-none select-none">
-              <span className="font-heading text-2xl sm:text-3xl font-bold tracking-[0.15em] bg-gradient-to-r from-[#fce38a] via-[#d4af37] to-[#aa7c11] bg-clip-text text-transparent transition-transform duration-300 group-hover:scale-[1.02]">
-                QITRA
-              </span>
-              <span className="text-[7.5px] sm:text-[8px] text-gray-400 uppercase tracking-[0.3em] font-body mt-2 font-light opacity-80 group-hover:opacity-100 transition-opacity">
-                Fine Fragrances
-              </span>
-            </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {links.map((link) => {
-              const active = isActive(link.href);
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`relative px-3 py-2 text-[11px] uppercase tracking-[0.2em] font-medium transition-colors duration-300 rounded-md group ${
-                    active
-                      ? 'text-[#d4af37]'
-                      : 'text-gray-300 hover:text-white'
-                  }`}
-                >
-                  {link.name}
-                  {/* Subtle hover background highlight */}
-                  <span className="absolute inset-0 rounded-md bg-white/0 group-hover:bg-white/[0.03] transition-colors duration-200 pointer-events-none" />
-                  
-                  {/* Active / Hover Animated Underline */}
-                  <span
-                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[1.5px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent transition-all duration-300 ease-out ${
-                      active ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-2/3 group-hover:opacity-100'
-                    }`}
-                  />
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Right Controls */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <Link
-              href="/products"
-              className="text-gray-300 hover:text-[#d4af37] transition-all duration-200 p-2.5 rounded-full hover:bg-white/5 active:scale-95"
-              aria-label="Search products"
-            >
-              <Search className="h-4 sm:h-5 w-4 sm:w-5" />
-            </Link>
-
-            <Link
-              href="/cart"
-              className="relative text-gray-300 hover:text-[#d4af37] transition-all duration-200 p-2.5 rounded-full hover:bg-white/5 active:scale-95"
-              aria-label="Shopping cart"
-            >
-              <ShoppingBag className="h-4 sm:h-5 w-4 sm:w-5" />
-              {mounted && totalItems > 0 && (
-                <span className="absolute top-1 right-1 flex h-4 w-4 sm:h-4.5 sm:w-4.5 items-center justify-center rounded-full bg-gradient-to-r from-[#f0c040] to-[#d4af37] text-[9px] font-extrabold text-black shadow-[0_0_10px_rgba(212,175,55,0.5)] transition-transform animate-in zoom-in-50">
-                  {totalItems}
-                </span>
-              )}
-            </Link>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-gray-300 hover:text-[#d4af37] focus:outline-none p-2.5 rounded-full hover:bg-white/5 transition-colors active:scale-95 ml-1"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Dropdown Drawer */}
+      {/* =========================================================
+          HEADER
+      ========================================================= */}
+      <header className="fixed inset-x-0 top-0 z-50">
+        {/* =======================================================
+            ANNOUNCEMENT BAR
+        ======================================================= */}
         <div
-          className={`md:hidden absolute top-[72px] left-0 right-0 bg-black/95 backdrop-blur-2xl border-b border-[#d4af37]/20 transition-all duration-300 ease-in-out shadow-2xl ${
-            isOpen ? 'max-h-[420px] opacity-100 py-4' : 'max-h-0 opacity-0 py-0 overflow-hidden pointer-events-none'
-          }`}
+          className="
+            hidden h-8
+            items-center justify-center
+            border-b border-white/[0.06]
+            bg-[#070707]
+            px-4
+            md:flex
+          "
         >
-          <div className="px-6 flex flex-col gap-1.5">
-            {links.map((link) => {
-              const active = isActive(link.href);
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-lg text-xs font-medium uppercase tracking-[0.2em] transition-all duration-200 ${
-                    active
-                      ? 'bg-gradient-to-r from-[#d4af37]/15 to-transparent text-[#d4af37] border-l-2 border-[#d4af37]'
-                      : 'text-gray-300 hover:text-white hover:bg-white/[0.04]'
-                  }`}
-                >
-                  {link.name}
-                  {active && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37] shadow-[0_0_8px_#d4af37]" />
-                  )}
-                </Link>
-              );
-            })}
+          <div
+            className="
+              flex items-center gap-2.5
+              text-[9px]
+              font-medium
+              uppercase
+              tracking-[0.24em]
+              text-[#c8ae7b]
+            "
+          >
+            <Sparkles className="h-3 w-3 text-[#d8b875]" />
+
+            <span>Complimentary VIP Delivery Across Pakistan</span>
+
+            <span className="text-white/15">•</span>
+
+            <span className="text-white/50">
+              Pure Extrait Formulations
+            </span>
+
+            <Sparkles className="h-3 w-3 text-[#d8b875]" />
           </div>
         </div>
-      </nav>
 
-      {/* Mobile Backdrop */}
+        {/* =======================================================
+            MAIN NAVBAR
+        ======================================================= */}
+        <nav
+          className={`
+            relative
+            h-[72px]
+            border-b
+            transition-all
+            duration-500
+            ease-out
+
+            ${
+              scrolled
+                ? `
+                  border-white/[0.09]
+                  bg-[#070707]/96
+                  shadow-[0_12px_45px_rgba(0,0,0,0.45)]
+                  backdrop-blur-2xl
+                `
+                : `
+                  border-white/[0.045]
+                  bg-[#070707]/90
+                  backdrop-blur-xl
+                `
+            }
+          `}
+        >
+          {/* =====================================================
+              NAV INNER
+          ===================================================== */}
+          <div
+            className="
+              mx-auto
+              flex
+              h-full
+              max-w-[1500px]
+              items-center
+              justify-around
+              px-5
+              sm:px-8
+              lg:px-10
+              xl:px-12
+            "
+          >
+            {/* =================================================
+                LOGO — LEFT
+            ================================================= */}
+            <div className="shrink-0">
+              <Link
+                href="/"
+                aria-label="Qitra Home"
+                className="group flex flex-col items-start"
+              >
+                <span
+                  className="
+                    font-heading
+                    text-[25px]
+                    font-medium
+                    leading-none
+                    tracking-[0.30em]
+                    text-white
+                    transition-all
+                    duration-500
+                    group-hover:text-[#d8b875]
+                    group-hover:tracking-[0.34em]
+                    sm:text-[27px]
+                  "
+                >
+                  QITRA
+                </span>
+
+                <span
+                  className="
+                    mt-2
+                    text-[6.5px]
+                    font-medium
+                    uppercase
+                    tracking-[0.42em]
+                    text-[#bda477]/70
+                    transition-colors
+                    duration-300
+                    group-hover:text-[#d8b875]/90
+                    sm:text-[7px]
+                  "
+                >
+                  Haute Parfumerie
+                </span>
+              </Link>
+            </div>
+
+            {/* =================================================
+                CATEGORIES — CENTER
+            ================================================= */}
+            <div
+              className="
+                hidden
+                items-center
+                justify-around
+                gap-6
+                lg:flex
+                xl:gap-8
+                2xl:gap-10
+              "
+            >
+              {links.map((link) => {
+                const active = isActive(link.href);
+
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`
+                      group
+                      relative
+                      whitespace-nowrap
+                      px-2
+                      py-3
+                      text-[10px]
+                      font-medium
+                      uppercase
+                      tracking-[0.20em]
+                      transition-all
+                      duration-300
+
+                      ${
+                        active
+                          ? "text-[#d8b875]"
+                          : "text-white/55 hover:text-white"
+                      }
+                    `}
+                  >
+                    {link.name}
+
+                    {/* Active / Hover underline */}
+                    <span
+                      className={`
+                        absolute
+                        bottom-0
+                        left-1/2
+                        h-px
+                        -translate-x-1/2
+                        bg-[#d8b875]
+                        transition-all
+                        duration-300
+
+                        ${
+                          active
+                            ? "w-6 opacity-100"
+                            : "w-0 opacity-0 group-hover:w-6 group-hover:opacity-100"
+                        }
+                      `}
+                    />
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* =================================================
+                ACTIONS — RIGHT
+            ================================================= */}
+            <div
+              className="
+                hidden
+                items-center
+                gap-2
+                lg:flex
+              "
+            >
+              {/* Divider */}
+              <span className="mr-2 h-5 w-px bg-white/[0.10]" />
+
+              {/* Search */}
+              <Link
+                href="/products"
+                aria-label="Search Fragrances"
+                className="
+                  group
+                  flex
+                  h-9
+                  w-9
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-transparent
+                  text-white/55
+                  transition-all
+                  duration-300
+                  hover:border-white/[0.08]
+                  hover:bg-white/[0.04]
+                  hover:text-[#d8b875]
+                "
+              >
+                <Search
+                  className="
+                    h-[15px]
+                    w-[15px]
+                    transition-transform
+                    duration-300
+                    group-hover:scale-110
+                  "
+                />
+              </Link>
+
+              {/* Cart */}
+              <Link
+                href="/cart"
+                aria-label="Shopping Bag"
+                className="
+                  group
+                  relative
+                  flex
+                  h-9
+                  w-9
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-transparent
+                  text-white/55
+                  transition-all
+                  duration-300
+                  hover:border-white/[0.08]
+                  hover:bg-white/[0.04]
+                  hover:text-[#d8b875]
+                "
+              >
+                <ShoppingBag
+                  className="
+                    h-[15px]
+                    w-[15px]
+                    transition-transform
+                    duration-300
+                    group-hover:scale-110
+                  "
+                />
+
+                {mounted && totalItems > 0 && (
+                  <span
+                    className="
+                      absolute
+                      -right-1
+                      -top-1
+                      flex
+                      h-[16px]
+                      min-w-[16px]
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-[#070707]
+                      bg-[#d8b875]
+                      px-1
+                      text-[8px]
+                      font-bold
+                      leading-none
+                      text-[#070707]
+                    "
+                  >
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
+            </div>
+
+            {/* =================================================
+                MOBILE ACTIONS
+            ================================================= */}
+            <div className="ml-auto flex items-center gap-0.5 lg:hidden">
+              {/* Mobile Search */}
+              <Link
+                href="/products"
+                aria-label="Search Fragrances"
+                className="
+                  flex
+                  h-10
+                  w-10
+                  items-center
+                  justify-center
+                  rounded-full
+                  text-white/65
+                  transition-all
+                  duration-300
+                  hover:bg-white/[0.05]
+                  hover:text-[#d8b875]
+                  active:scale-95
+                "
+              >
+                <Search className="h-[18px] w-[18px]" />
+              </Link>
+
+              {/* Mobile Cart */}
+              <Link
+                href="/cart"
+                aria-label="Shopping Bag"
+                className="
+                  relative
+                  flex
+                  h-10
+                  w-10
+                  items-center
+                  justify-center
+                  rounded-full
+                  text-white/65
+                  transition-all
+                  duration-300
+                  hover:bg-white/[0.05]
+                  hover:text-[#d8b875]
+                  active:scale-95
+                "
+              >
+                <ShoppingBag className="h-[18px] w-[18px]" />
+
+                {mounted && totalItems > 0 && (
+                  <span
+                    className="
+                      absolute
+                      right-1
+                      top-1
+                      flex
+                      h-4
+                      min-w-4
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-[#d8b875]
+                      px-1
+                      text-[8px]
+                      font-bold
+                      leading-none
+                      text-[#070707]
+                    "
+                  >
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
+
+              {/* Mobile Menu Button */}
+              <button
+                type="button"
+                onClick={() => setIsOpen((prev) => !prev)}
+                aria-label={isOpen ? "Close Menu" : "Open Menu"}
+                aria-expanded={isOpen}
+                className="
+                  flex
+                  h-10
+                  w-10
+                  items-center
+                  justify-center
+                  rounded-full
+                  text-white/65
+                  transition-all
+                  duration-300
+                  hover:bg-white/[0.05]
+                  hover:text-[#d8b875]
+                  active:scale-95
+                "
+              >
+                {isOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* =======================================================
+              MOBILE MENU
+          ======================================================= */}
+          <div
+            className={`
+              absolute
+              left-0
+              right-0
+              top-full
+              overflow-hidden
+              border-b
+              border-white/[0.08]
+              bg-[#080808]/98
+              shadow-[0_20px_50px_rgba(0,0,0,0.45)]
+              backdrop-blur-2xl
+              transition-all
+              duration-500
+              ease-out
+              lg:hidden
+
+              ${
+                isOpen
+                  ? "pointer-events-auto max-h-[600px] translate-y-0 opacity-100"
+                  : "pointer-events-none max-h-0 -translate-y-2 opacity-0"
+              }
+            `}
+          >
+            <div className="px-6 py-6 sm:px-8">
+              {/* Mobile Menu Header */}
+              <div className="mb-5 flex items-center justify-between border-b border-white/[0.07] pb-4">
+                <div>
+                  <p className="text-[9px] font-medium uppercase tracking-[0.25em] text-[#d8b875]">
+                    Explore
+                  </p>
+
+                  <p className="mt-1 font-heading text-lg text-white">
+                    Our Collection
+                  </p>
+                </div>
+
+                <Sparkles className="h-4 w-4 text-[#d8b875]/70" />
+              </div>
+
+              {/* Mobile Links */}
+              <div className="space-y-1">
+                {links.map((link, index) => {
+                  const active = isActive(link.href);
+
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className={`
+                        group
+                        flex
+                        items-center
+                        justify-between
+                        rounded-lg
+                        px-3
+                        py-4
+                        transition-all
+                        duration-300
+
+                        ${
+                          active
+                            ? "bg-[#d8b875]/[0.07] text-[#d8b875]"
+                            : "text-white/65 hover:bg-white/[0.04] hover:text-white"
+                        }
+                      `}
+                    >
+                      <div className="flex items-center gap-4">
+                        <span
+                          className="
+                            text-[8px]
+                            font-medium
+                            tracking-[0.15em]
+                            text-white/20
+                          "
+                        >
+                          0{index + 1}
+                        </span>
+
+                        <span
+                          className="
+                            text-[11px]
+                            font-medium
+                            uppercase
+                            tracking-[0.22em]
+                          "
+                        >
+                          {link.name}
+                        </span>
+                      </div>
+
+                      <ArrowRight
+                        className={`
+                          h-4
+                          w-4
+                          transition-all
+                          duration-300
+                          ${
+                            active
+                              ? "translate-x-0 text-[#d8b875]"
+                              : "-translate-x-2 text-white/20 opacity-0 group-hover:translate-x-0 group-hover:text-[#d8b875] group-hover:opacity-100"
+                          }
+                        `}
+                      />
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* Mobile Bottom Detail */}
+              <div className="mt-5 border-t border-white/[0.07] pt-5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[8px] uppercase tracking-[0.2em] text-white/30">
+                    Haute Parfumerie
+                  </span>
+
+                  <span className="flex items-center gap-2 text-[8px] uppercase tracking-[0.15em] text-[#c8ae7b]/70">
+                    Pakistan
+                    <Sparkles className="h-3 w-3" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      {/* =========================================================
+          MOBILE BACKDROP
+      ========================================================= */}
       <div
-        className={`md:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`
+          fixed
+          inset-0
+          z-40
+          bg-black/60
+          backdrop-blur-[2px]
+          transition-all
+          duration-500
+          lg:hidden
+
+          ${
+            isOpen
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-0"
+          }
+        `}
         onClick={() => setIsOpen(false)}
+        aria-hidden="true"
       />
     </>
   );

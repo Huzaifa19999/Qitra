@@ -49,7 +49,7 @@ export default function CartPage() {
           </div>
 
           {/* Category quick links */}
-          <div className="pt-2 flex items-center justify-center gap-4 text-xs text-gray-600">
+          <div className="pt-2 flex items-center justify-center gap-5 text-xs text-gray-600">
             {['men', 'women', 'unisex', 'children'].map((slug) => (
               <Link key={slug} href={`/category/${slug}`} className="hover:text-[#d4af37] transition-colors capitalize">
                 {slug}

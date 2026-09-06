@@ -12,21 +12,30 @@ export default async function AdminProductsPage() {
       category: true,
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: 'asc',
     },
   });
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-serif text-white">Products</h1>
-        <div className="flex items-center space-x-4">
-          <span className="text-gray-400 text-sm">{products.length} total</span>
-          <Link href="/admin/products/new" className="btn-gold px-4 py-2 rounded-lg bg-[#d4af37] text-black font-medium hover:bg-[#b5952f] transition-colors">
-            Add New Product
-          </Link>
-        </div>
-      </div>
+     <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6">
+  <h1 className="text-4xl font-seri text-white">
+    Products
+  </h1>
+
+  <div className="flex items-center gap-4">
+    <span className="text-sm text-gray-400">
+      {products.length} total
+    </span>
+
+   <Link
+  href="/admin/products/new"
+  className="rounded-sm  bg-[#d4af37] p-2 text-sm font-medium text-black transition-colors duration-300 hover:bg-[#b5952f]"
+>
+  Add New Product
+</Link>
+  </div>
+</div>
 
       <div className="glass card-dark rounded-xl border border-gray-800 overflow-hidden">
         <div className="overflow-x-auto">
@@ -61,12 +70,18 @@ export default async function AdminProductsPage() {
                       {product.stock}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-right space-x-3">
-                    <Link href={`/admin/products/${product.id}/edit`} className="text-[#d4af37] hover:text-[#b5952f] text-sm font-medium">
-                      Edit
-                    </Link>
-                    <DeleteProductButton id={product.id} />
-                  </td>
+                 <td className="px-6 py-4">
+  <div className="flex items-center gap-5">
+    <Link
+      href={`/admin/products/${product.id}/edit`}
+      className="text-[#d4af37] hover:text-[#b5952f] text-sm font-medium transition-colors"
+    >
+      Edit
+    </Link>
+
+    <DeleteProductButton id={product.id} />
+  </div>
+</td>
                 </tr>
               ))}
               {products.length === 0 && (
