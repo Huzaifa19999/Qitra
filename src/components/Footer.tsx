@@ -1,132 +1,143 @@
-import React from 'react';
-import Link from 'next/link';
-import { MapPin, Mail, Phone, MessageCircle } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import { MapPin, Mail, Phone, MessageCircle, ArrowRight } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#080808] text-gray-400 relative pt-16 pb-8 border-t border-[#d4af37]/15">
-      {/* Top gold shimmer line */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent opacity-40" />
+    <footer className="relative border-t border-white/[0.07] bg-[#050507] pt-20 pb-10 text-gray-400">
+      {/* Top subtle champagne gold hairline glow */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#c5a059]/40 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 mb-16">
 
-          {/* Brand */}
+          {/* BRAND COLUMN */}
           <div className="space-y-5 lg:col-span-1">
             <div>
-              <h3 className="font-heading text-2xl text-[#d4af37] tracking-wider mb-1">QITRA</h3>
-              <div className="w-8 h-[2px] bg-gradient-to-r from-[#d4af37] to-[#f0c040] rounded-full" />
+              <h3 className="font-heading text-2xl font-semibold tracking-[0.25em] text-white">
+                QITRA
+              </h3>
+              <p className="text-[8.5px] uppercase tracking-[0.35em] text-[#c5a059] mt-1 font-medium">
+                Maison de Luxe
+              </p>
+              <div className="mt-3 h-[1.5px] w-8 bg-gradient-to-r from-[#dfba73] to-[#c5a059] rounded-full" />
             </div>
-            <p className="text-sm leading-relaxed text-gray-500">
-              Discover the essence of luxury with our curated collection of fine fragrances.
-              Each scent is carefully selected to offer an unforgettable olfactory experience.
+
+            <p className="text-xs leading-relaxed text-gray-400/90 font-light">
+              Curators of haute couture apparel, high-performance cosmetics, handcrafted fine jewellery,
+              and artisanal fragrances. Defined by timeless craftsmanship and effortless elegance.
             </p>
+
             {/* Social icons */}
-            <div className="flex items-center gap-3 pt-1">
-              {/* Instagram */}
+            <div className="flex items-center gap-3 pt-2">
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-gray-500 hover:text-[#d4af37] hover:border-[#d4af37]/40 hover:bg-[#d4af37]/5 transition-all duration-200"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-gray-400 transition-all duration-300 hover:border-[#c5a059]/50 hover:bg-[#c5a059]/10 hover:text-[#dfba73]"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <circle cx="12" cy="12" r="4" />
                   <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
                 </svg>
               </a>
-              {/* Facebook */}
+
               <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-gray-500 hover:text-[#d4af37] hover:border-[#d4af37]/40 hover:bg-[#d4af37]/5 transition-all duration-200"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-gray-400 transition-all duration-300 hover:border-[#c5a059]/50 hover:bg-[#c5a059]/10 hover:text-[#dfba73]"
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="h-10.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
                 </svg>
               </a>
-              {/* WhatsApp */}
+
               <a
                 href="https://wa.me/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
-                className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-gray-500 hover:text-[#d4af37] hover:border-[#d4af37]/40 hover:bg-[#d4af37]/5 transition-all duration-200"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-gray-400 transition-all duration-300 hover:border-[#c5a059]/50 hover:bg-[#c5a059]/10 hover:text-[#dfba73]"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="h-3.5 w-3.5" />
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* QUICK LINKS */}
           <div>
-            <h4 className="font-heading text-[#d4af37] text-base mb-5 uppercase tracking-widest">Quick Links</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#dfba73] mb-6">
+              Navigation
+            </h4>
+            <ul className="space-y-3 text-xs">
               {[
-                { label: 'Home', href: '/' },
-                { label: 'About Us', href: '/about' },
-                { label: 'All Products', href: '/products' },
-                { label: 'Your Cart', href: '/cart' },
+                { label: "Home", href: "/" },
+                { label: "Complete Collection", href: "/products" },
+                { label: "Shopping Bag", href: "/cart" },
               ].map(({ label, href }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="hover:text-white transition-colors duration-200 flex items-center gap-2 group"
+                    className="group inline-flex items-center gap-2 text-gray-400 transition-colors duration-200 hover:text-white"
                   >
-                    <span className="w-1 h-1 rounded-full bg-[#d4af37]/40 group-hover:bg-[#d4af37] transition-colors" />
-                    {label}
+                    <span className="h-1 w-1 rounded-full bg-[#c5a059]/40 transition-colors group-hover:bg-[#dfba73]" />
+                    <span>{label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* CATEGORIES */}
           <div>
-            <h4 className="font-heading text-[#d4af37] text-base mb-5 uppercase tracking-widest">Categories</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#dfba73] mb-6">
+              Maison Categories
+            </h4>
+            <ul className="space-y-3 text-xs">
               {[
-                { label: "Men's Fragrances", href: '/category/men' },
-                { label: "Women's Fragrances", href: '/category/women' },
-                { label: 'Unisex Collection', href: '/category/unisex' },
-                { label: "Children's Scents", href: '/category/children' },
+                { label: "Luxury Clothes", href: "/category/clothes" },
+                { label: "Makeup & Cosmetics", href: "/category/makeup" },
+                { label: "Fine Jewellery", href: "/category/jewellery" },
+                { label: "Artisanal Perfumes", href: "/category/perfume" },
               ].map(({ label, href }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="hover:text-white transition-colors duration-200 flex items-center gap-2 group"
+                    className="group inline-flex items-center gap-2 text-gray-400 transition-colors duration-200 hover:text-white"
                   >
-                    <span className="w-1 h-1 rounded-full bg-[#d4af37]/40 group-hover:bg-[#d4af37] transition-colors" />
-                    {label}
+                    <span className="h-1 w-1 rounded-full bg-[#c5a059]/40 transition-colors group-hover:bg-[#dfba73]" />
+                    <span>{label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact + Newsletter */}
-          <div className="space-y-6">
+          {/* CONCIERGE & NEWSLETTER */}
+          <div className="space-y-2">
             <div>
-              <h4 className="font-heading text-[#d4af37] text-base mb-5 uppercase tracking-widest">Contact</h4>
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-[#d4af37] shrink-0 mt-0.5" />
-                  <span>123 Luxury Avenue, Paris, France 75008</span>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#dfba73] mb-6">
+                Client Concierge
+              </h4>
+              <ul className="space-y-3 text-xs">
+                <li className="flex items-start gap-1 text-gray-400">
+                  <MapPin className="h-3.5 w-3.5 text-[#c5a059] shrink-0 mt-0.5" />
+                  <span>Haute Atelier, Gulberg III, Lahore, Pakistan</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-[#d4af37] shrink-0" />
-                  <a href="mailto:contact@luxeparfum.com" className="hover:text-white transition-colors">
-                    contact@luxeparfum.com
+                <li className="flex items-center gap-1">
+                  <Mail className="h-3.5 w-3.5 text-[#c5a059] shrink-0" />
+                  <a href="mailto:concierge@qitra.com" className="text-gray-400 hover:text-white transition-colors">
+                    concierge@qitra.com
                   </a>
                 </li>
-                <li className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#d4af37] shrink-0" />
-                  <a href="tel:+33123456789" className="hover:text-white transition-colors">
-                    +33 1 23 45 67 89
+                <li className="flex items-center gap-1">
+                  <Phone className="h-3.5 w-3.5 text-[#c5a059] shrink-0" />
+                  <a href="tel:+923000000000" className="text-gray-400 hover:text-white transition-colors">
+                    +92 (300) 000-00000
                   </a>
                 </li>
               </ul>
@@ -134,31 +145,36 @@ export default function Footer() {
 
             {/* Newsletter */}
             <div>
-              <p className="text-xs text-gray-500 uppercase tracking-widest mb-3 font-medium">Newsletter</p>
-              <div className="flex gap-2">
+              <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-400 mb-3">
+                Private Newsletter
+              </p>
+              <div className="flex rounded-full border border-white/10 bg-white/[0.02] p-1 focus-within:border-[#c5a059]/50 transition-colors">
                 <input
                   type="email"
-                  placeholder="your@email.com"
-                  className="flex-1 min-w-0 px-3 py-2 text-xs bg-white/5 border border-white/10 rounded-lg text-gray-300 placeholder-gray-600 focus:outline-none focus:border-[#d4af37]/50 transition-colors"
+                  placeholder="Enter your email"
+                  className="flex-1 bg-transparent px-3 text-xs text-white placeholder:text-gray-600 focus:outline-none"
                 />
-                <button className="px-3 py-2 text-xs btn-gold rounded-lg whitespace-nowrap">
-                  Subscribe
+                <button
+                  type="button"
+                  aria-label="Subscribe"
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-[#c5a059] text-black transition-transform hover:scale-105 active:scale-95"
+                >
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs gap-4">
-          <p className="text-gray-600">
-            &copy; {new Date().getFullYear()} Luxe Parfum. All rights reserved.
-          </p>
-          <div className="flex gap-6 text-gray-600">
-            <Link href="/privacy" className="hover:text-white transition-colors duration-200">
+        {/* BOTTOM BAR */}
+        <div className="border-t border-white/[0.06] pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-gray-500">
+          <p>&copy; {new Date().getFullYear()} QITRA Luxury Maison. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="hover:text-gray-300 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors duration-200">
+            <span className="text-white/10">•</span>
+            <Link href="/terms" className="hover:text-gray-300 transition-colors">
               Terms of Service
             </Link>
           </div>

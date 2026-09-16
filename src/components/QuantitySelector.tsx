@@ -1,6 +1,7 @@
 "use client";
 
-import React from 'react';
+import React from "react";
+import { Minus, Plus } from "lucide-react";
 
 interface QuantitySelectorProps {
   quantity: number;
@@ -10,20 +11,16 @@ interface QuantitySelectorProps {
   onDecrease?: () => void;
   maxStock?: number;
   stock?: number;
-  size?: 'sm' | 'md';
+  size?: "sm" | "md";
 }
 
 export default function QuantitySelector(props: QuantitySelectorProps) {
   const quantity = props.quantity;
   const maxStock = props.maxStock ?? props.stock ?? 999;
-  const size = props.size || 'md';
+  const size = props.size || "md";
 
   const isMin = quantity <= 1;
   const isMax = quantity >= maxStock;
-
-  const btnClasses = `flex items-center justify-center rounded-full border border-[#d4af37] text-[#d4af37] transition-all duration-200 
-    ${size === 'sm' ? 'h-8 w-8 text-lg' : 'h-10 w-10 text-xl'}
-  `;
 
   const handleDecrease = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -50,27 +47,49 @@ export default function QuantitySelector(props: QuantitySelectorProps) {
   };
 
   return (
-    <div className="flex items-center space-x-3 bg-black/40 rounded-full p-1 border border-white/5 backdrop-blur-sm">
+    <div
+      className={`inline-flex items-center rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md transition-colors ${
+        size === "sm" ? "p-0.5 gap-1.5" : "p-1 gap-2.5"
+      }`}
+    >
       <button
+        type="button"
         onClick={handleDecrease}
         disabled={isMin}
-        className={`${btnClasses} ${isMin ? 'opacity-50 cursor-not-allowed border-gray-600 text-gray-500' : 'hover:bg-[#d4af37]/20 hover:shadow-[0_0_10px_rgba(212,175,55,0.2)]'}`}
         aria-label="Decrease quantity"
+        className={`flex items-center justify-center rounded-full text-white/70 transition-all duration-200 ${
+          size === "sm" ? "h-6 w-6" : "h-7 w-7"
+        } ${
+          isMin
+            ? "cursor-not-allowed opacity-25 text-white/30"
+            : "hover:bg-[#c5a059]/20 hover:text-[#dfba73] active:scale-95"
+        }`}
       >
-        -
+        <Minus className={size === "sm" ? "h-3 w-3" : "h-3.5 w-3.5"} />
       </button>
-      
-      <span className={`font-medium text-white flex justify-center w-6 tabular-nums ${size === 'sm' ? 'text-sm' : 'text-base'}`}>
+
+      <span
+        className={`font-sans font-semibold text-white tabular-nums text-center select-none ${
+          size === "sm" ? "w-5 text-xs" : "w-7 text-sm"
+        }`}
+      >
         {quantity}
       </span>
-      
+
       <button
+        type="button"
         onClick={handleIncrease}
         disabled={isMax}
-        className={`${btnClasses} ${isMax ? 'opacity-50 cursor-not-allowed border-gray-600 text-gray-500' : 'hover:bg-[#d4af37]/20 hover:shadow-[0_0_10px_rgba(212,175,55,0.2)]'}`}
         aria-label="Increase quantity"
+        className={`flex items-center justify-center rounded-full text-white/70 transition-all duration-200 ${
+          size === "sm" ? "h-6 w-6" : "h-7 w-7"
+        } ${
+          isMax
+            ? "cursor-not-allowed opacity-25 text-white/30"
+            : "hover:bg-[#c5a059]/20 hover:text-[#dfba73] active:scale-95"
+        }`}
       >
-        +
+        <Plus className={size === "sm" ? "h-3 w-3" : "h-3.5 w-3.5"} />
       </button>
     </div>
   );

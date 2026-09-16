@@ -46,12 +46,28 @@ export default function EditProductPage({
   });
 
   useEffect(() => {
-    setCategories([
-      { id: 1, name: "Men" },
-      { id: 2, name: "Women" },
-      { id: 3, name: "Children" },
-      { id: 4, name: "Unisex" },
-    ]);
+    fetch('/api/categories')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setCategories(data);
+        } else {
+          setCategories([
+            { id: 1, name: "Clothes" },
+            { id: 2, name: "Makeup" },
+            { id: 3, name: "Jewellery" },
+            { id: 4, name: "Perfume" },
+          ]);
+        }
+      })
+      .catch(() => {
+        setCategories([
+          { id: 1, name: "Clothes" },
+          { id: 2, name: "Makeup" },
+          { id: 3, name: "Jewellery" },
+          { id: 4, name: "Perfume" },
+        ]);
+      });
 
     const fetchProduct = async () => {
       try {

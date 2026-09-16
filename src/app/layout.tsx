@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/components/ThemeProvider";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -17,24 +18,27 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "LUXE PARFUM — Premium Perfume Store",
-    template: "%s | LUXE PARFUM",
+    default: "QITRA — Luxury Fashion, Makeup, Jewellery & Perfume",
+    template: "%s | QITRA",
   },
   description:
-    "Discover exquisite fragrances for Men, Women, Children, and Unisex. Premium perfumes curated for every occasion.",
+    "Explore luxury collections across Clothes, high-performance Makeup, handcrafted Fine Jewellery, and artisanal Perfumes.",
   keywords: [
+    "luxury clothes",
+    "designer fashion",
+    "makeup",
+    "cosmetics",
+    "fine jewellery",
+    "gold jewellery",
     "perfume",
     "fragrance",
-    "luxury perfume",
-    "men perfume",
-    "women perfume",
-    "unisex fragrance",
-    "buy perfume online",
+    "luxury store",
+    "Qitra",
   ],
   openGraph: {
-    title: "LUXE PARFUM — Premium Perfume Store",
+    title: "QITRA — Luxury Fashion, Makeup, Jewellery & Perfume",
     description:
-      "Discover exquisite fragrances for Men, Women, Children, and Unisex.",
+      "Explore luxury collections across Clothes, high-performance Makeup, handcrafted Fine Jewellery, and artisanal Perfumes.",
     type: "website",
     locale: "en_US",
   },
@@ -46,8 +50,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfairDisplay.variable} ${inter.variable}`}>
-      <body className="antialiased">{children}</body>
+    <html lang="en" className={`${playfairDisplay.variable} ${inter.variable}`} suppressHydrationWarning>
+      <body className="antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

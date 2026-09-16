@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { CartProvider } from "@/components/CartProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,21 +10,20 @@ export default function StorefrontLayout({
 }) {
   return (
     <CartProvider>
-      <Navbar />
+      <Suspense fallback={null}>
+        <Navbar />
+      </Suspense>
 
-      <main
-        className="
-          min-h-screen
-          bg-[#070709]
-          text-[#dcd8d0]
-          pt-[72px]
-          md:pt-[104px]
-        "
-      >
+      <main className="w-full min-h-screen bg-[#090a0f] text-[#e2e8f0] pt-[130px] sm:pt-[150px]">
         {children}
       </main>
 
       <Footer />
     </CartProvider>
+//  <>
+//  <Footer/>
+//  </>
+  
+  
   );
 }

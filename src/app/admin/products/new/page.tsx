@@ -25,13 +25,28 @@ export default function NewProductPage() {
   });
 
   useEffect(() => {
-    // Categories list for perfume store
-    setCategories([
-      { id: 1, name: 'Men' },
-      { id: 2, name: 'Women' },
-      { id: 3, name: 'Children' },
-      { id: 4, name: 'Unisex' },
-    ]);
+    fetch('/api/categories')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setCategories(data);
+        } else {
+          setCategories([
+            { id: 1, name: 'Clothes' },
+            { id: 2, name: 'Makeup' },
+            { id: 3, name: 'Jewellery' },
+            { id: 4, name: 'Perfume' },
+          ]);
+        }
+      })
+      .catch(() => {
+        setCategories([
+          { id: 1, name: 'Clothes' },
+          { id: 2, name: 'Makeup' },
+          { id: 3, name: 'Jewellery' },
+          { id: 4, name: 'Perfume' },
+        ]);
+      });
   }, []);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,7 +144,7 @@ export default function NewProductPage() {
                 value={formData.name}
                 onChange={e => setFormData({...formData, name: e.target.value})}
                 className="input-dark w-full px-4 py-2 rounded-lg bg-[#1a1a2e]/50 border border-gray-700 focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37] outline-none text-white"
-                placeholder="e.g. Royal Oud Intense"
+                placeholder="e.g. Silk Evening Gown, Velvet Lipstick, Gold Pendant, Royal Oud"
               />
             </div>
 
@@ -186,7 +201,7 @@ export default function NewProductPage() {
               value={formData.description}
               onChange={e => setFormData({...formData, description: e.target.value})}
               className="input-dark w-full px-4 py-2 rounded-lg bg-[#1a1a2e]/50 border border-gray-700 focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37] outline-none text-white resize-none"
-              placeholder="Detailed fragrance notes, sillage, longevity description..."
+              placeholder="Detailed item description, fabric/materials, notes, or sizing..."
             />
           </div>
 

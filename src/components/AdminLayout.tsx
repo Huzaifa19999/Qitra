@@ -29,17 +29,17 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
       sectionTitle = "Dashboard";
       sectionSubtitle = "Real-time metrics, revenue and inventory overview";
     } else if (pathname === '/admin/products/new') {
-      sectionTitle = "Add Fragrance";
-      sectionSubtitle = "Create a new artisan perfume in the catalog";
+      sectionTitle = "Add Product";
+      sectionSubtitle = "Create a new luxury item in the catalog";
     } else if (pathname.startsWith('/admin/products/') && pathname.endsWith('/edit')) {
-      sectionTitle = "Edit Fragrance";
-      sectionSubtitle = "Update formulation, pricing, and stock details";
+      sectionTitle = "Edit Product";
+      sectionSubtitle = "Update specifications, pricing, and stock details";
     } else if (pathname.startsWith('/admin/products')) {
       sectionTitle = "Products";
-      sectionSubtitle = "Manage perfume inventory, status, and pricing";
+      sectionSubtitle = "Manage luxury inventory, status, and pricing";
     } else if (pathname.startsWith('/admin/orders')) {
       sectionTitle = "Orders";
-      sectionSubtitle = "Review and fulfill client fragrance orders";
+      sectionSubtitle = "Review and fulfill client orders";
     }
   }
 
@@ -47,15 +47,15 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
     <div className="min-h-screen bg-[#07070c] text-gray-100 flex relative selection:bg-[#d4af37]/20 selection:text-white">
       {/* Ambient Lighting Gradients */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-32 right-1/4 w-[600px] h-[500px] rounded-full bg-[#d4af37]/[0.035] blur-[140px]" />
-        <div className="absolute -bottom-32 left-1/3 w-[500px] h-[500px] rounded-full bg-[#16213e]/20 blur-[130px]" />
+        <div className="absolute -top-32 right-1/4 w-[600px] h-[500px] rounded-full bg-[#c5a059]/[0.035] blur-[140px]" />
+        <div className="absolute -bottom-32 left-1/3 w-[500px] h-[500px] rounded-full bg-[#c5a059]/[0.02] blur-[130px]" />
       </div>
 
       {/* Admin Navigation Drawer */}
-      {/* <AdminSidebar
+      <AdminSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-      /> */}
+      />
 
       {/* Main Content Area */}
       <div className="flex-1 md:pl-72 w-full min-w-0 flex flex-col min-h-screen relative z-10">

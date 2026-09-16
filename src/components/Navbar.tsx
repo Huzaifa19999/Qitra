@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCart } from "@/components/CartProvider";
 import {
   ShoppingBag,
@@ -10,16 +10,25 @@ import {
   Menu,
   X,
   Sparkles,
+  Phone,
+  Truck,
+  ShieldCheck,
+  ChevronDown,
   ArrowRight,
 } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const { totalItems } = useCart();
+  const { totalItems, totalAmount } = useCart();
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     setMounted(true);
@@ -27,611 +36,312 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 24);
+      setScrolled(window.scrollY > 20);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Sync search input with URL search param if present
   useEffect(() => {
+    const query = searchParams.get("search");
+    if (query) {
+      setSearchQuery(query);
+    }
+    const cat = searchParams.get("category");
+    if (cat) {
+      setSelectedCategory(cat);
+    }
+  }, [searchParams]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim() && selectedCategory === "all") {
+      router.push("/products");
+      return;
+    }
+
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) {
+      params.set("search", searchQuery.trim());
+    }
+    if (selectedCategory && selectedCategory !== "all") {
+      params.set("category", selectedCategory);
+    }
+
+    router.push(`/products?${params.toString()}`);
     setIsOpen(false);
-  }, [pathname]);
+  };
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  const links = [
-    { name: "Collection", href: "/products" },
-    { name: "Men", href: "/category/men" },
-    { name: "Women", href: "/category/women" },
-    { name: "Unisex", href: "/category/unisex" },
-    { name: "Children", href: "/category/children" },
+  const navCategories = [
+    { name: "All Products", href: "/products" },
+    { name: "Clothes", href: "/category/clothes" },
+    { name: "Makeup", href: "/category/makeup" },
+    { name: "Jewellery", href: "/category/jewellery" },
+    { name: "Perfume", href: "/category/perfume" },
   ];
 
   const isActive = (href: string) => {
-    if (href === "/products") {
-      return pathname === "/products";
-    }
-
+    if (href === "/products") return pathname === "/products" && !searchParams.get("category");
     return pathname.startsWith(href);
   };
 
   return (
-    <>
-      {/* =========================================================
-          HEADER
-      ========================================================= */}
-      <header className="fixed inset-x-0 top-0 z-50">
-        {/* =======================================================
-            ANNOUNCEMENT BAR
-        ======================================================= */}
-        <div
-          className="
-            hidden h-8
-            items-center justify-center
-            border-b border-white/[0.06]
-            bg-[#070707]
-            px-4
-            md:flex
-          "
-        >
-          <div
-            className="
-              flex items-center gap-2.5
-              text-[9px]
-              font-medium
-              uppercase
-              tracking-[0.24em]
-              text-[#c8ae7b]
-            "
-          >
-            <Sparkles className="h-3 w-3 text-[#d8b875]" />
-
-            <span>Complimentary VIP Delivery Across Pakistan</span>
-
-            <span className="text-white/15">•</span>
-
-            <span className="text-white/50">
-              Pure Extrait Formulations
+    <header className="fixe inset-x-0 top-0 z-50 transition-all duration-300">
+      {/* ─── 1. TOP ANNOUNCEMENT & UTILITY BAR (Daraz/Amazon style) ─── */}
+      <div className="bg-[#050609] border-b border-white/[0.08] text-[11px] text-gray-400 py-1.5 px-4 hidden sm:block">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-5">
+            <span className="flex items-center gap-1.5 text-gray-300 font-medium">
+              <Truck className="w-3.5 h-3.5 text-[#d4af37]" />
+              Free Express Delivery Nationwide on Orders Over Rs. 3,000
             </span>
+            <span className="text-white/20">|</span>
+            <span className="flex items-center gap-1.5 text-[#f3d078]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#d4af37]" />
+              Cash on Delivery (COD) Available
+            </span>
+          </div>
 
-            <Sparkles className="h-3 w-3 text-[#d8b875]" />
+          <div className="flex items-center gap-4">
+            <a
+              href="https://wa.me/923343451617"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-[#f3d078] transition-colors"
+            >
+              <Phone className="w-3 h-3 text-[#d4af37]" />
+              <span>WhatsApp Concierge: +92 300 0000000</span>
+            </a>
+            <span className="text-white/20">|</span>
+            <Link href="/products" className="hover:text-white transition-colors">
+              Track Order
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── 2. MAIN NAVIGATION & SEARCH BAR ─── */}
+      <div
+        className={`transition-all duration-300 border-b border-white/[0.08] ${
+          scrolled ? "bg-[#090a0f]/95 backdrop-blur-md shadow-2xl" : "bg-[#0c0d14]"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between gap-4 lg:gap-8">
+          
+          {/* LOGO */}
+          <Link href="/" className="flex flex-col shrink-0 focus:outline-none group">
+            <div className="flex items-center gap-2">
+              <span className="font-heading text-2xl sm:text-3xl font-bold tracking-[0.2em] text-white group-hover:text-[#f3d078] transition-colors">
+                QITRA
+              </span>
+              <Sparkles className="w-7 h-7 text-[#d4af37] opacity-80" />
+            </div>
+            <span className="text-[9.5px] uppercase tracking-[0.35em] text-[#d4af37]/90 font-medium -mt-1">
+              Haute Maison
+            </span>
+          </Link>
+
+          {/* AMAZON / DARAZ STYLE CENTRAL SEARCH BAR (DESKTOP) */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className="hidden md:flex flex-1 max-w-4xl items-center rounded-md border border-white/15 bg-[#141522] focus-within:border-[#d4af37] focus-within:ring-1 focus-within:ring-[#d4af37] transition-all shadow-inner overflow-hidden"
+          >
+            {/* Category Select Dropdown inside search */}
+            <div className="relative text-center border rounded border-white/10 shrink-0">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="h-10 bg-transparent pl-3 pr-8 text-sm text-gray-300 font-medium focus:outline-none cursor-pointer appearance-none"
+              >
+                <option value="all" className="bg-[#141522] text-white">All Departments</option>
+                <option value="clothes" className="bg-[#141522] text-white">Clothes</option>
+                <option value="makeup" className="bg-[#141522] text-white">Makeup</option>
+                <option value="jewellery" className="bg-[#141522] text-white">Fine Jewellery</option>
+                <option value="perfume" className="bg-[#141522] text-white">Perfumes</option>
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+
+            {/* Search Input */}
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search clothes, makeup, artisanal perfumes, fine jewellery..."
+              className="flex-1 h-11 bg-transparent px-4 text-sm text-white placeholder:text-gray-500 focus:outline-none"
+            />
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              aria-label="Search"
+              className="h-14 rounded px-5 bg-gradient-to-r from-[#f3d078] to-[#d4af37] hover:from-[#ffe094] hover:to-[#f3d078] text-black font-semibold flex items-center justify-center transition-all cursor-pointer"
+            >
+              <Search className="w-15 h-8 sm:h-7 text-black" />
+            </button>
+          </form>
+
+          {/* USER ACTIONS & CART (RIGHT) */}
+          <div className="flex gap-2 sm:gap-4 shrink-0">
+            {/* WhatsApp Quick Chat */}
+            <a
+              href="https://wa.me/923343451617"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:flex items-center gap-2.5 px-3 py-2 rounded-xl border border-white/10 hover:border-[#d4af37]/40 bg-white/[0.02] hover:bg-[#d4af37]/10 transition-all text-xs text-gray-300 hover:text-white"
+            >
+              <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                <Phone className="w-3.5 h-3.5" />
+              </div>
+              <div className="text-left">
+                <span className="block text-[9.5px] uppercase tracking-wider text-gray-400">Order Help</span>
+                <span className="block font-semibold text-[#f3d078]">WhatsApp</span>
+              </div>
+            </a>
+
+            {/* Shopping Cart Button (Amazon/Daraz style with item count & price) */}
+            <Link
+              href="/cart"
+              className="flex items-center gap-3 px-3 sm:px-4 py-2 rounded-xl border border-[#d4af37]/30 bg-[#d4af37]/10 hover:bg-[#d4af37]/20 transition-all group"
+            >
+              <div className="relative">
+                <ShoppingBag className="w-7 h-7 text-[#f3d078] transition-transform group-hover:scale-110" />
+                {mounted && (
+                  <span className="absolute -top-2 -right-2.5 min-w-[19px] h-[19px] px-1 bg-gradient-to-r from-[#f3d078] to-[#d4af37] text-black text-[10px] font-bold rounded-full flex items-center justify-center shadow-md">
+                    {totalItems}
+                  </span>
+                )}
+              </div>
+              <div className="hidden sm:block text-left">
+                <span className="block text-[10px] uppercase tracking-wider text-gray-400">Bag Total</span>
+                <span className="block text-xs font-bold text-white">
+                  Rs. {mounted ? totalAmount.toLocaleString() : "0"}
+                </span>
+              </div>
+            </Link>
+                        {/* <ThemeToggle /> */}
+
+
+            {/* Mobile Menu Button */}
+            <button
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "Close Menu" : "Open Menu"}
+              className="p-2.5 rounded-lg border border-white/10 bg-white/[0.04] text-gray-300 hover:text-white md:hidden"
+            >
+              {isOpen ? <X className="w-8 h-7" /> : <Menu className="w-8 h-7" />}
+            </button>
           </div>
         </div>
 
-        {/* =======================================================
-            MAIN NAVBAR
-        ======================================================= */}
-        <nav
-          className={`
-            relative
-            h-[72px]
-            border-b
-            transition-all
-            duration-500
-            ease-out
-
-            ${
-              scrolled
-                ? `
-                  border-white/[0.09]
-                  bg-[#070707]/96
-                  shadow-[0_12px_45px_rgba(0,0,0,0.45)]
-                  backdrop-blur-2xl
-                `
-                : `
-                  border-white/[0.045]
-                  bg-[#070707]/90
-                  backdrop-blur-xl
-                `
-            }
-          `}
-        >
-          {/* =====================================================
-              NAV INNER
-          ===================================================== */}
-          <div
-            className="
-              mx-auto
-              flex
-              h-full
-              max-w-[1500px]
-              items-center
-              justify-around
-              px-5
-              sm:px-8
-              lg:px-10
-              xl:px-12
-            "
+        {/* MOBILE SEARCH BAR (Visible only on mobile screens) */}
+        <div className="px-4 pb-3 md:hidden">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="flex items-center rounded-xl border border-white/15 bg-[#141522] focus-within:border-[#d4af37] overflow-hidden"
           >
-            {/* =================================================
-                LOGO — LEFT
-            ================================================= */}
-            <div className="shrink-0">
-              <Link
-                href="/"
-                aria-label="Qitra Home"
-                className="group flex flex-col items-start"
-              >
-                <span
-                  className="
-                    font-heading
-                    text-[25px]
-                    font-medium
-                    leading-none
-                    tracking-[0.30em]
-                    text-white
-                    transition-all
-                    duration-500
-                    group-hover:text-[#d8b875]
-                    group-hover:tracking-[0.34em]
-                    sm:text-[27px]
-                  "
-                >
-                  QITRA
-                </span>
-
-                <span
-                  className="
-                    mt-2
-                    text-[6.5px]
-                    font-medium
-                    uppercase
-                    tracking-[0.42em]
-                    text-[#bda477]/70
-                    transition-colors
-                    duration-300
-                    group-hover:text-[#d8b875]/90
-                    sm:text-[7px]
-                  "
-                >
-                  Haute Parfumerie
-                </span>
-              </Link>
-            </div>
-
-            {/* =================================================
-                CATEGORIES — CENTER
-            ================================================= */}
-            <div
-              className="
-                hidden
-                items-center
-                justify-around
-                gap-6
-                lg:flex
-                xl:gap-8
-                2xl:gap-10
-              "
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search clothes, perfumes, makeup..."
+              className="flex-1 h-10 bg-transparent px-3 text-xs text-white placeholder:text-gray-500 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="h-10 rounded px-4 bg-[#d4af37] text-black font-semibold flex items-center justify-center"
             >
-              {links.map((link) => {
-                const active = isActive(link.href);
+              <Search className="w-10 h-7 text-black" />
+            </button>
+          </form>
+        </div>
+      </div>
 
+      {/* ─── 3. SECONDARY CATEGORY / DEPARTMENT BAR (Amazon / Daraz Subnav) ─── */}
+      <div className="hidden md:block bg-[#10111a] border-b border-white/[0.07] px-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-1 overflow-x-auto py-1.5 scrollbar-none">
+            {navCategories.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap ${
+                    active
+                      ? "bg-[#d4af37]/15 text-[#f3d078] border border-[#d4af37]/30 shadow-sm"
+                      : "text-gray-300 hover:text-white hover:bg-white/[0.04]"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-4 text-xs">
+            <Link
+              href="/products?sort=newest"
+              className="flex items-center gap-1 text-[#f3d078] hover:text-white font-medium transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
+              <span>New Atelier Arrivals</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── 4. MOBILE DRAWER NAVIGATION ─── */}
+      {isOpen && (
+        <div className="md:hidden bg-[#0e0f17] border-b border-white/10 shadow-2xl p-5 space-y-4 animate-fade-in-up">
+          <div className="space-y-1 pb-3 border-b border-white/10">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37]">
+              Maison Departments
+            </span>
+            <div className="grid grid-cols-1 gap-1 pt-2">
+              {navCategories.map((item) => {
+                const active = isActive(item.href);
                 return (
                   <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`
-                      group
-                      relative
-                      whitespace-nowrap
-                      px-2
-                      py-3
-                      text-[10px]
-                      font-medium
-                      uppercase
-                      tracking-[0.20em]
-                      transition-all
-                      duration-300
-
-                      ${
-                        active
-                          ? "text-[#d8b875]"
-                          : "text-white/55 hover:text-white"
-                      }
-                    `}
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider ${
+                      active
+                        ? "bg-[#d4af37]/15 text-[#f3d078] border border-[#d4af37]/30"
+                        : "text-gray-300 hover:bg-white/[0.04] hover:text-white"
+                    }`}
                   >
-                    {link.name}
-
-                    {/* Active / Hover underline */}
-                    <span
-                      className={`
-                        absolute
-                        bottom-0
-                        left-1/2
-                        h-px
-                        -translate-x-1/2
-                        bg-[#d8b875]
-                        transition-all
-                        duration-300
-
-                        ${
-                          active
-                            ? "w-6 opacity-100"
-                            : "w-0 opacity-0 group-hover:w-6 group-hover:opacity-100"
-                        }
-                      `}
-                    />
+                    <span>{item.name}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-gray-500" />
                   </Link>
                 );
               })}
             </div>
+          </div>
 
-            {/* =================================================
-                ACTIONS — RIGHT
-            ================================================= */}
-            <div
-              className="
-                hidden
-                items-center
-                gap-2
-                lg:flex
-              "
+          <div className="pt-1 flex items-center justify-between text-xs text-gray-400">
+            <a
+              href="https://wa.me/923343451617"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-emerald-400 hover:underline"
             >
-              {/* Divider */}
-              <span className="mr-2 h-5 w-px bg-white/[0.10]" />
-
-              {/* Search */}
-              <Link
-                href="/products"
-                aria-label="Search Fragrances"
-                className="
-                  group
-                  flex
-                  h-9
-                  w-9
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-transparent
-                  text-white/55
-                  transition-all
-                  duration-300
-                  hover:border-white/[0.08]
-                  hover:bg-white/[0.04]
-                  hover:text-[#d8b875]
-                "
-              >
-                <Search
-                  className="
-                    h-[15px]
-                    w-[15px]
-                    transition-transform
-                    duration-300
-                    group-hover:scale-110
-                  "
-                />
-              </Link>
-
-              {/* Cart */}
-              <Link
-                href="/cart"
-                aria-label="Shopping Bag"
-                className="
-                  group
-                  relative
-                  flex
-                  h-9
-                  w-9
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-transparent
-                  text-white/55
-                  transition-all
-                  duration-300
-                  hover:border-white/[0.08]
-                  hover:bg-white/[0.04]
-                  hover:text-[#d8b875]
-                "
-              >
-                <ShoppingBag
-                  className="
-                    h-[15px]
-                    w-[15px]
-                    transition-transform
-                    duration-300
-                    group-hover:scale-110
-                  "
-                />
-
-                {mounted && totalItems > 0 && (
-                  <span
-                    className="
-                      absolute
-                      -right-1
-                      -top-1
-                      flex
-                      h-[16px]
-                      min-w-[16px]
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-[#070707]
-                      bg-[#d8b875]
-                      px-1
-                      text-[8px]
-                      font-bold
-                      leading-none
-                      text-[#070707]
-                    "
-                  >
-                    {totalItems}
-                  </span>
-                )}
-              </Link>
-            </div>
-
-            {/* =================================================
-                MOBILE ACTIONS
-            ================================================= */}
-            <div className="ml-auto flex items-center gap-0.5 lg:hidden">
-              {/* Mobile Search */}
-              <Link
-                href="/products"
-                aria-label="Search Fragrances"
-                className="
-                  flex
-                  h-10
-                  w-10
-                  items-center
-                  justify-center
-                  rounded-full
-                  text-white/65
-                  transition-all
-                  duration-300
-                  hover:bg-white/[0.05]
-                  hover:text-[#d8b875]
-                  active:scale-95
-                "
-              >
-                <Search className="h-[18px] w-[18px]" />
-              </Link>
-
-              {/* Mobile Cart */}
-              <Link
-                href="/cart"
-                aria-label="Shopping Bag"
-                className="
-                  relative
-                  flex
-                  h-10
-                  w-10
-                  items-center
-                  justify-center
-                  rounded-full
-                  text-white/65
-                  transition-all
-                  duration-300
-                  hover:bg-white/[0.05]
-                  hover:text-[#d8b875]
-                  active:scale-95
-                "
-              >
-                <ShoppingBag className="h-[18px] w-[18px]" />
-
-                {mounted && totalItems > 0 && (
-                  <span
-                    className="
-                      absolute
-                      right-1
-                      top-1
-                      flex
-                      h-4
-                      min-w-4
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-[#d8b875]
-                      px-1
-                      text-[8px]
-                      font-bold
-                      leading-none
-                      text-[#070707]
-                    "
-                  >
-                    {totalItems}
-                  </span>
-                )}
-              </Link>
-
-              {/* Mobile Menu Button */}
-              <button
-                type="button"
-                onClick={() => setIsOpen((prev) => !prev)}
-                aria-label={isOpen ? "Close Menu" : "Open Menu"}
-                aria-expanded={isOpen}
-                className="
-                  flex
-                  h-10
-                  w-10
-                  items-center
-                  justify-center
-                  rounded-full
-                  text-white/65
-                  transition-all
-                  duration-300
-                  hover:bg-white/[0.05]
-                  hover:text-[#d8b875]
-                  active:scale-95
-                "
-              >
-                {isOpen ? (
-                  <X className="h-5 w-5" />
-                ) : (
-                  <Menu className="h-5 w-5" />
-                )}
-              </button>
-            </div>
+              <Phone className="w-3.5 h-3.5" />
+              <span>WhatsApp Support</span>
+            </a>
+            <Link
+              href="/cart"
+              onClick={() => setIsOpen(false)}
+              className="text-[#f3d078] font-semibold hover:underline"
+            >
+              View Bag ({totalItems})
+            </Link>
           </div>
-
-          {/* =======================================================
-              MOBILE MENU
-          ======================================================= */}
-          <div
-            className={`
-              absolute
-              left-0
-              right-0
-              top-full
-              overflow-hidden
-              border-b
-              border-white/[0.08]
-              bg-[#080808]/98
-              shadow-[0_20px_50px_rgba(0,0,0,0.45)]
-              backdrop-blur-2xl
-              transition-all
-              duration-500
-              ease-out
-              lg:hidden
-
-              ${
-                isOpen
-                  ? "pointer-events-auto max-h-[600px] translate-y-0 opacity-100"
-                  : "pointer-events-none max-h-0 -translate-y-2 opacity-0"
-              }
-            `}
-          >
-            <div className="px-6 py-6 sm:px-8">
-              {/* Mobile Menu Header */}
-              <div className="mb-5 flex items-center justify-between border-b border-white/[0.07] pb-4">
-                <div>
-                  <p className="text-[9px] font-medium uppercase tracking-[0.25em] text-[#d8b875]">
-                    Explore
-                  </p>
-
-                  <p className="mt-1 font-heading text-lg text-white">
-                    Our Collection
-                  </p>
-                </div>
-
-                <Sparkles className="h-4 w-4 text-[#d8b875]/70" />
-              </div>
-
-              {/* Mobile Links */}
-              <div className="space-y-1">
-                {links.map((link, index) => {
-                  const active = isActive(link.href);
-
-                  return (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      className={`
-                        group
-                        flex
-                        items-center
-                        justify-between
-                        rounded-lg
-                        px-3
-                        py-4
-                        transition-all
-                        duration-300
-
-                        ${
-                          active
-                            ? "bg-[#d8b875]/[0.07] text-[#d8b875]"
-                            : "text-white/65 hover:bg-white/[0.04] hover:text-white"
-                        }
-                      `}
-                    >
-                      <div className="flex items-center gap-4">
-                        <span
-                          className="
-                            text-[8px]
-                            font-medium
-                            tracking-[0.15em]
-                            text-white/20
-                          "
-                        >
-                          0{index + 1}
-                        </span>
-
-                        <span
-                          className="
-                            text-[11px]
-                            font-medium
-                            uppercase
-                            tracking-[0.22em]
-                          "
-                        >
-                          {link.name}
-                        </span>
-                      </div>
-
-                      <ArrowRight
-                        className={`
-                          h-4
-                          w-4
-                          transition-all
-                          duration-300
-                          ${
-                            active
-                              ? "translate-x-0 text-[#d8b875]"
-                              : "-translate-x-2 text-white/20 opacity-0 group-hover:translate-x-0 group-hover:text-[#d8b875] group-hover:opacity-100"
-                          }
-                        `}
-                      />
-                    </Link>
-                  );
-                })}
-              </div>
-
-              {/* Mobile Bottom Detail */}
-              <div className="mt-5 border-t border-white/[0.07] pt-5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[8px] uppercase tracking-[0.2em] text-white/30">
-                    Haute Parfumerie
-                  </span>
-
-                  <span className="flex items-center gap-2 text-[8px] uppercase tracking-[0.15em] text-[#c8ae7b]/70">
-                    Pakistan
-                    <Sparkles className="h-3 w-3" />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </header>
-
-      {/* =========================================================
-          MOBILE BACKDROP
-      ========================================================= */}
-      <div
-        className={`
-          fixed
-          inset-0
-          z-40
-          bg-black/60
-          backdrop-blur-[2px]
-          transition-all
-          duration-500
-          lg:hidden
-
-          ${
-            isOpen
-              ? "pointer-events-auto opacity-100"
-              : "pointer-events-none opacity-0"
-          }
-        `}
-        onClick={() => setIsOpen(false)}
-        aria-hidden="true"
-      />
-    </>
+        </div>
+      )}
+    </header>
   );
 }

@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import ProductCard from "@/components/ProductCard";
+import Link from "next/link";
+import { Sparkles, ArrowLeft } from "lucide-react";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
@@ -9,8 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   });
   if (!category) return { title: "Not Found" };
   return {
-    title: `${category.name} Fragrances | Luxury Perfumes`,
-    description: `Browse our luxury collection of ${category.name} fragrances.`,
+    title: `${category.name} Collection | QITRA`,
+    description: `Browse our luxury collection of ${category.name} at QITRA.`,
   };
 }
 
@@ -21,28 +23,55 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     include: {
       products: {
         include: { category: true },
-        orderBy: { createdAt: 'desc' }
-      }
+        orderBy: { createdAt: "desc" },
+      },
     },
   });
 
   if (!category) notFound();
 
   return (
-    <div>
-      <div className="bg-gradient-to-b from-[#111] to-[#0a0a0a] py-16 border-b border-white/10 text-center">
-        <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4 text-gradient-gold">
-          {category.name} Fragrances
-        </h1>
-        <p className="text-gray-400 font-body max-w-2xl mx-auto px-4 text-sm md:text-base">
-          Explore our exclusive collection of {category.name} luxury fragrances, crafted to perfection.
-        </p>
-        <div className="inline-block mt-4 px-4 py-1 rounded-full border border-[#d4af37]/40 bg-[#d4af37]/10 text-[#d4af37] text-xs font-semibold">
-          {category.products.length} Products Available
+    <div className="space-y-12 pb-24">
+      {/* ================= HERO BANNER ================= */}
+      <div className="relative overflow-hidden border-b border-white/[0.06] bg-gradient-to-b from-[#0e0e14] via-[#09090d] to-[#060608] py-20 text-center">
+        {/* Ambient Glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] rounded-full bg-[#c5a059]/[0.06] blur-[120px]" />
+        </div>
+
+        <div className="relative z-10 max-w-3xl mx-auto px-6 space-y-4">
+          {/* Breadcrumb */}
+          <nav className="flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-gray-500 mb-2">
+            <Link href="/" className="hover:text-white transition-colors">
+              Maison
+            </Link>
+            <span>/</span>
+            <Link href="/products" className="hover:text-white transition-colors">
+              Collection
+            </Link>
+            <span>/</span>
+            <span className="text-[#dfba73]">{category.name}</span>
+          </nav>
+
+          <h1 className="text-4xl sm:text-6xl font-heading font-medium text-white tracking-tight">
+            {category.name} Collection
+          </h1>
+
+          <p className="text-gray-400 text-xs sm:text-sm font-light max-w-xl mx-auto leading-relaxed">
+            Explore our exclusive collection of {category.name}, crafted to perfection with unmatched luxury and attention to detail.
+          </p>
+
+          <div className="pt-2">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#c5a059]/30 bg-[#c5a059]/[0.06] text-[#dfba73] text-[10px] font-semibold uppercase tracking-[0.2em]">
+              <Sparkles className="w-3 h-3 text-[#dfba73]" />
+              <span>{category.products.length} {category.products.length === 1 ? "Piece Available" : "Pieces Available"}</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      {/* ================= PRODUCT GRID ================= */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {category.products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {category.products.map((product) => (
@@ -58,9 +87,18 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 glass rounded-2xl">
-            <h3 className="text-2xl font-heading text-gray-300 mb-4">No products available</h3>
-            <p className="text-gray-500">We are currently updating our {category.name} collection. Check back soon.</p>
+          <div className="text-center py-24 rounded-3xl border border-white/[0.06] bg-[#0c0c10] space-y-4 max-w-md mx-auto">
+            <Sparkles className="w-8 h-8 text-[#dfba73] mx-auto opacity-70" />
+            <h3 className="text-xl font-heading font-medium text-white">No Pieces Currently Available</h3>
+            <p className="text-gray-400 text-xs font-light">
+              We are curating new arrivals for the {category.name} collection. Please check back shortly.
+            </p>
+            <div className="pt-2">
+              <Link href="/products" className="btn-outline-gold text-xs px-6 py-2.5 inline-flex items-center gap-2">
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Browse All Collections</span>
+              </Link>
+            </div>
           </div>
         )}
       </div>

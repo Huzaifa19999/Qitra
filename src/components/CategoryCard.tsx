@@ -1,56 +1,62 @@
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 interface CategoryCardProps {
   name: string;
   slug: string;
   image?: string;
+  itemCount?: number;
 }
 
-export default function CategoryCard({ name, slug, image }: CategoryCardProps) {
+export default function CategoryCard({ name, slug, image, itemCount }: CategoryCardProps) {
   return (
     <Link href={`/category/${slug}`} className="group block w-full h-full">
-      <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-[#16213e] border border-white/5 transition-all duration-500 group-hover:border-[#d4af37]/40 group-hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] group-hover:-translate-y-1">
-
-        {/* Background Image or Fallback Gradient */}
+      <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden bg-[#12131d] border border-white/[0.08] group-hover:border-[#d4af37]/50 group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.8),0_0_25px_rgba(212,175,55,0.15)] transition-all duration-500">
+        
+        {/* Category Image */}
         {image ? (
-          <img
+          <Image
             src={image}
             alt={name}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
           />
         ) : (
-          <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0a]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1b1c2b] to-[#0c0d14]" />
         )}
 
-        {/* Layered dark overlay — deepens on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10 transition-all duration-500 group-hover:from-black/90 group-hover:via-black/50" />
+        {/* Gradient Mask for clear text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity group-hover:from-black/90" />
 
-        {/* Gold shimmer edge on hover */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-          style={{ boxShadow: 'inset 0 0 0 1.5px rgba(212,175,55,0.3)' }}
-        />
-
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-end pb-7 px-4 gap-3">
-          <h2 className="font-heading text-3xl md:text-4xl text-white font-bold tracking-wider text-center drop-shadow-lg transition-transform duration-500 group-hover:-translate-y-3">
-            {name}
-          </h2>
-
-          {/* Gold underline */}
-          <div className="h-[2px] w-0 bg-gradient-to-r from-[#d4af37] to-[#f0c040] rounded-full transition-all duration-500 group-hover:w-12" />
-
-          {/* "Shop Now" CTA — slides up from invisible */}
-          <div className="flex items-center gap-1.5 overflow-hidden">
-            <span
-              className="text-[#d4af37] text-xs font-semibold uppercase tracking-[0.15em] opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 delay-75"
-            >
-              Shop Now
+        {/* Content Container */}
+        <div className="absolute inset-0 flex flex-col justify-between p-5 z-10">
+          {/* Top Badge */}
+          <div className="flex justify-between items-center">
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#f3d078] bg-black/75 px-2.5 py-1 rounded-md border border-[#d4af37]/30 backdrop-blur-md">
+              <Sparkles className="w-3 h-3 text-[#d4af37]" />
+              Atelier
             </span>
-            <ArrowRight
-              className="h-3 w-3 text-[#d4af37] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-400 delay-100"
-            />
+
+            {typeof itemCount === "number" && (
+              <span className="text-[10px] font-medium text-gray-300 bg-white/10 px-2 py-0.5 rounded backdrop-blur-md">
+                {itemCount} Items
+              </span>
+            )}
+          </div>
+
+          {/* Bottom Titles & CTA */}
+          <div className="space-y-1.5">
+            <h3 className="font-heading text-xl sm:text-2xl font-bold text-white group-hover:text-[#f3d078] transition-colors">
+              {name}
+            </h3>
+            
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#f3d078] group-hover:translate-x-1 transition-transform">
+              <span>Shop Collection</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </div>
           </div>
         </div>
       </div>
