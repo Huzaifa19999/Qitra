@@ -10,7 +10,7 @@ export default async function middleware(request: NextRequest) {
     const session = await auth();
 
     if (!session) {
-      const loginUrl = new URL("/admin/login", request.url);
+      const loginUrl = new URL("/admin/login", request.nextUrl);
       loginUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(loginUrl);
     }
@@ -18,7 +18,7 @@ export default async function middleware(request: NextRequest) {
     // Check admin role
     const user = session.user as { role?: string };
     if (user?.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/", request.nextUrl));
     }
   }
 
