@@ -1,29 +1,33 @@
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
-export default async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+export default auth((req) => {
+  const { pathname } = req.nextUrl;
 
   // Protect all /admin routes except /admin/login
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
-    const session = await auth();
+    const host =
+      req.headers.get("x-forwarded-host") ||
+      req.headers.get("host") ||
+      "qitra-hxeh.vercel.app";
+    const proto = req.headers.get("x-forwarded-proto") || "https";
+    const baseUrl = `${proto}://${host}`;
 
-    if (!session) {
-      const loginUrl = new URL("/admin/login", request.nextUrl);
+    if (!req.auth) {
+      const loginUrl = new URL("/admin/login", baseUrl);
       loginUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(loginUrl);
     }
 
     // Check admin role
-    const user = session.user as { role?: string };
+    const user = req.auth.user as { role?: string };
     if (user?.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/", request.nextUrl));
+      return NextResponse.redirect(new URL("/", baseUrl));
     }
   }
 
   return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: ["/admin/:path*"],
