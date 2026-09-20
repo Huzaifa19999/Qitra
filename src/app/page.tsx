@@ -2,8 +2,10 @@ import React from 'react'
 
 function Home() {
   return (
-    <div>
-      Hello Huzaifa
+    <div className=''>
+      <span>1</span>
+      <span>2</span>
+      <span>3</span>
     </div>
   )
 }
