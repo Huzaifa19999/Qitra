@@ -1,31 +1,29 @@
-import NextAuth from "next-auth";
-import { authConfig } from "@/lib/auth.config";
+import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const { auth } = NextAuth(authConfig);
-
-export default auth((req) => {
-  const { pathname } = req.nextUrl;
+export default async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
   // Protect all /admin routes except /admin/login
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
-    const isLoggedIn = !!req.auth;
+    const session = await auth();
 
-    if (!isLoggedIn) {
-      const loginUrl = new URL("/admin/login", req.nextUrl.origin);
+    if (!session) {
+      const loginUrl = new URL("/admin/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(loginUrl);
     }
 
     // Check admin role
-    const user = req.auth?.user as { role?: string } | undefined;
+    const user = session.user as { role?: string };
     if (user?.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/", req.nextUrl.origin));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: ["/admin/:path*"],
