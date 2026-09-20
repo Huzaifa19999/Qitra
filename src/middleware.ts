@@ -1,30 +1,37 @@
-  // import { auth } from "@/lib/auth";
-  // import { NextResponse } from "next/server";
-  // import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-  // export default async function middleware(request: NextRequest) {
-  //   const { pathname } = request.nextUrl;
+export default function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-  //   // Protect all /admin routes except /admin/login
-  //   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
-  //     const session = await auth();
+  // Allow admin login page
+  if (pathname === "/admin/login") {
+    return NextResponse.next();
+  }
 
-  //     if (!session) {
-  //       const loginUrl = new URL("/admin/login", request.url);
-  //       loginUrl.searchParams.set("callbackUrl", pathname);
-  //       return NextResponse.redirect(loginUrl);
-  //     }
+  // Protect /admin routes
+  if (pathname.startsWith("/admin")) {
+    // Check for Auth.js session cookie
+    const sessionToken =
+      request.cookies.get("authjs.session-token")?.value ||
+      request.cookies.get("__Secure-authjs.session-token")?.value;
 
-  //     // Check admin role
-  //     const user = session.user as { role?: string };
-  //     if (user?.role !== "ADMIN") {
-  //       return NextResponse.redirect(new URL("/", request.url));
-  //     }
-  //   }
+    // No session → login
+    if (!sessionToken) {
+      const loginUrl = new URL("/admin/login", request.url);
 
-  //   return NextResponse.next();
-  // }
+      loginUrl.searchParams.set(
+        "callbackUrl",
+        pathname
+      );
 
-  // export const config = {
-  //   matcher: ["/admin/:path*"],
-  // };
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/admin/:path*"],
+};
