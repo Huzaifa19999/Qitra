@@ -31,7 +31,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   if (!category) notFound();
 
   return (
-    <div className="space-y-12 pb-24">
+    <div className="space-y-12 leading-5 pb-24">
       {/* ================= HERO BANNER ================= */}
       <div className="relative overflow-hidden border-b border-white/[0.06] bg-gradient-to-b from-[#0e0e14] via-[#09090d] to-[#060608] py-20 text-center">
         {/* Ambient Glow */}
@@ -39,7 +39,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] rounded-full bg-[#c5a059]/[0.06] blur-[120px]" />
         </div>
 
-        <div className="relative z-10 max-w-3xl mx-auto px-6 space-y-4">
+        <div className="relative z-10 max-w-8xl mx-auto px-6 space-y-4">
           {/* Breadcrumb */}
           <nav className="flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-gray-500 mb-2">
             <Link href="/" className="hover:text-white transition-colors">
@@ -57,9 +57,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             {category.name} Collection
           </h1>
 
-          <p className="text-gray-400 text-xs sm:text-sm font-light max-w-xl mx-auto leading-relaxed">
-            Explore our exclusive collection of {category.name}, crafted to perfection with unmatched luxury and attention to detail.
-          </p>
+         <p className="text-center text-gray-400 text-sm sm:text-sm font-light max-w-8xl mx-auto leading-relaxed">
+  Explore our exclusive collection of {category.name}, crafted to perfection with unmatched luxury and attention to detail.
+</p>
 
           <div className="pt-2">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#c5a059]/30 bg-[#c5a059]/[0.06] text-[#dfba73] text-[10px] font-semibold uppercase tracking-[0.2em]">
@@ -71,7 +71,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       </div>
 
       {/* ================= PRODUCT GRID ================= */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="max-w-8xl mx-auto px-6 lg:px-12">
         {category.products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {category.products.map((product) => (

@@ -64,16 +64,17 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
           {/* Header Left: Mobile Drawer Button + Page Header */}
           <div className="flex items-center gap-3.5 min-w-0">
             <button
+              type="button"
               onClick={() => setSidebarOpen(true)}
               aria-label="Open sidebar menu"
-              className="md:hidden p-2 rounded-xl text-gray-300 hover:text-[#d4af37] bg-white/[0.03] hover:bg-[#d4af37]/10 border border-white/10 hover:border-[#d4af37]/30 transition-all shrink-0"
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl text-gray-300 hover:text-[#d4af37] bg-white/[0.04] hover:bg-[#d4af37]/15 active:bg-[#d4af37]/20 border border-white/10 hover:border-[#d4af37]/40 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-[#d4af37]/30"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-5 h-5 text-current" />
             </button>
 
             <div className="flex flex-col min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#d4af37]/80">
+                <span className="text-[14px] uppercase font-bold tracking-[0.2em] text-[#d4af37]/80">
                   Admin Atelier
                 </span>
                 <span className="text-gray-600 text-xs hidden sm:inline">•</span>
@@ -121,7 +122,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
 
         {/* Page Content Viewport */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-          <div className="max-w-7xl mx-auto w-full animate-fade-in space-y-6">
+          <div className="max-w-8xl mx-auto w-full animate-fade-in space-y-6">
             {children}
           </div>
         </main>

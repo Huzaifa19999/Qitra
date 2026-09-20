@@ -99,7 +99,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12 space-y-12">
+    <div className="max-w-8xl mx-auto px-6 lg:px-12 py-12 space-y-12">
       {/* Header */}
       <div className="space-y-1 border-b border-white/[0.06] pb-6">
         <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#dfba73]">

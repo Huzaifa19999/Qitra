@@ -18,8 +18,8 @@ export default async function AdminProductsPage() {
 
   return (
     <div className="space-y-6">
-     <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6">
-  <h1 className="text-4xl font-seri text-white">
+     <div className="mx-auto flex w-full max-w-8xl items-center justify-between gap-6 px-6">
+  <h1 className="text-2xl font-seri text-white">
     Products
   </h1>
 
@@ -30,7 +30,7 @@ export default async function AdminProductsPage() {
 
    <Link
   href="/admin/products/new"
-  className="rounded-sm  bg-[#d4af37] p-2 text-sm font-medium text-black transition-colors duration-300 hover:bg-[#b5952f]"
+  className="rounded-sm  bg-[#d4af37] p-2 text-sm font-black font- text-black transition-colors duration-300 hover:bg-[#b5952f]"
 >
   Add New Product
 </Link>

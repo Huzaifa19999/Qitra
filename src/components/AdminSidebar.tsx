@@ -23,12 +23,33 @@ interface AdminSidebarProps {
 export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
 
+  
+
   // Close sidebar on route changes on mobile
   useEffect(() => {
     if (onClose) {
       onClose();
     }
   }, [pathname]);
+
+  // Handle ESC key to close on mobile & lock body scroll when open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   const navItems = [
     {
@@ -89,9 +110,10 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
 
           {/* Mobile Close Button */}
           <button
+            type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/[0.06] transition-colors md:hidden"
+            className="flex items-center justify-center w-9 h-9 rounded-xl text-gray-400 hover:text-white hover:bg-white/[0.08] active:bg-white/[0.12] border border-white/10 hover:border-white/20 transition-all md:hidden"
           >
             <X className="w-5 h-5" />
           </button>
@@ -116,7 +138,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
               <Link
                 key={item.name}
                 href={item.href}
-                className={`group flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all duration-200 relative ${
+                className={`group flex items-center justify-between ms-2 px-3.5 py-3 rounded-xl text-sm font-medium transition-all duration-200 relative ${
                   isActive
                     ? 'bg-gradient-to-r from-[#d4af37]/20 via-[#d4af37]/10 to-transparent text-[#d4af37] border border-[#d4af37]/30 shadow-md shadow-[#d4af37]/5'
                     : 'text-gray-400 hover:text-gray-100 hover:bg-white/[0.04] border border-transparent'
@@ -137,7 +159,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
                 </div>
 
                 {isActive && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37] shadow-[0_0_6px_#d4af37]" />
+                  <span className="w-2 h-2 rounded-full bg-[#d4af37] shadow-[0_0_6px_#d4af37]" />
                 )}
               </Link>
             );

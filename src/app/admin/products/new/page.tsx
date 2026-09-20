@@ -125,7 +125,7 @@ export default function NewProductPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl  mx-auto space-y-6">
       <div className="flex items-center space-x-4">
         <Link href="/admin/products" className="p-2 glass-gold rounded-lg hover:bg-white/5 text-[#d4af37]">
           <ArrowLeft size={20} />

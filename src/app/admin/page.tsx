@@ -35,7 +35,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-serif text-white">Dashboard</h1>
+        <h1 className="text-2xl font-serif text-white">Dashboard</h1>
         <div className="flex gap-3">
           <Link href="/admin/products/new" className="btn-outline-gold px-4 py-2 rounded-lg border border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-colors">
             Add Product

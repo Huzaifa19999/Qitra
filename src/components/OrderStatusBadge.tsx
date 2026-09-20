@@ -27,7 +27,7 @@ export default function OrderStatusBadge({ status }: OrderStatusBadgeProps) {
   };
 
   return (
-    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border ${getBadgeStyles()}`}>
+    <span className={`inline-flex items-center p-2 px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wider border ${getBadgeStyles()}`}>
       {normalizedStatus}
     </span>
   );

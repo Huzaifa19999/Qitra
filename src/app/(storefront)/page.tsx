@@ -98,22 +98,22 @@ export default async function HomePage() {
 
   const benefits = [
     {
-      icon: <Truck className="w-6 h-6 text-[#d4af37]" />,
+      icon: <Truck className="w-8 h-8 text-[#d4af37]" />,
       title: "Free Express Shipping",
       desc: "Free nationwide delivery in 2-4 days across Pakistan.",
     },
     {
-      icon: <ShieldCheck className="w-6 h-6 text-[#d4af37]" />,
+      icon: <ShieldCheck className="w-8 h-8 text-[#d4af37]" />,
       title: "Cash on Delivery",
       desc: "Pay securely at your doorstep with verified COD.",
     },
     {
-      icon: <Sparkles className="w-6 h-6 text-[#d4af37]" />,
+      icon: <Sparkles className="w-8 h-8 text-[#d4af37]" />,
       title: "100% Authentic Ateliers",
       desc: "Certified original luxury cosmetics, fashion & perfumes.",
     },
     {
-      icon: <MessageCircle className="w-6 h-6 text-[#d4af37]" />,
+      icon: <MessageCircle className="w-8 h-8 text-[#d4af37]" />,
       title: "WhatsApp Concierge",
       desc: "Instant sizing guidance and live order tracking 24/7.",
     },
@@ -151,10 +151,10 @@ export default async function HomePage() {
         {/* Ambient Gold Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-[#d4af37]/[0.08] blur-[140px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+        <div className="max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
           
           {/* Left Column: Hero Copy & Actions */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div className="lg:col-span-7 leading-16 space-y-6 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d4af37]/35 bg-[#d4af37]/10 text-[#f3d078] text-xs font-bold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
               <span>Pakistan&apos;s Luxury Maison • Cash on Delivery</span>
@@ -188,7 +188,7 @@ export default async function HomePage() {
             </div>
 
             {/* Micro value badges */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5 pt-4 text-xs font-medium text-gray-400">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5 pt-4 text-sm font-medium text-gray-400">
               <span className="flex items-center gap-1.5 text-emerald-400">
                 <CheckCircle2 className="w-4 h-4" /> 2-4 Days Fast Delivery
               </span>
@@ -203,12 +203,12 @@ export default async function HomePage() {
 
           {/* Right Column: Hero Visual Showcase */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-[#1b1c2b] to-[#12131e] p-2 shadow-2xl">
-              <div className="relative aspect-[4/4.5] rounded-2xl overflow-hidden">
+            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-[#1b1c2b] to-[#12131e] p-2 shadow-2xl">
+              <div className="relative aspect-[4/4.5] rounded-xl overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=900"
                   alt="Qitra Fragrance Collection"
-                  className="w-full h-full object-cover"
+                  className="w-full rounded-xl h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 space-y-1">
@@ -228,12 +228,12 @@ export default async function HomePage() {
       </section>
 
       {/* ─── 2. AMAZON/DARAZ 4-PILLAR VALUE PROPOSITION STRIP ─── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-8xl mx-aut px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {benefits.map((b, i) => (
             <div
               key={i}
-              className="flex items-start gap-4 p-5 rounded-2xl border border-white/[0.08] bg-[#12131d] hover:border-[#d4af37]/40 hover:bg-[#151624] transition-all"
+              className="flex items-start gap-4 p-5 rounded-xl border border-white/[0.08] bg-[#12131d] hover:border-[#d4af37]/40 hover:bg-[#151624] transition-all"
             >
               <div className="p-3 rounded-xl bg-[#d4af37]/10 border border-[#d4af37]/25 shrink-0">
                 {b.icon}
@@ -248,7 +248,7 @@ export default async function HomePage() {
       </section>
 
       {/* ─── 3. SHOP BY DEPARTMENT (Categories) ─── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <section className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/[0.08] pb-4">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#f3d078]">
@@ -282,7 +282,7 @@ export default async function HomePage() {
       </section>
 
       {/* ─── 4. FLASH DEALS & TRENDING PIECES (Amazon/Daraz Showcase Grid) ─── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <section className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/[0.08] pb-4">
           <div>
             <div className="flex items-center gap-2">
@@ -332,7 +332,7 @@ export default async function HomePage() {
       </section>
 
       {/* ─── 5. VERIFIED CUSTOMER REVIEWS & SOCIAL PROOF ─── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <section className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-cente space-y-2 max-w-xl mx-auto">
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#f3d078]">
             Verified Feedback
@@ -353,7 +353,7 @@ export default async function HomePage() {
             >
               <div className="flex items-center gap-1 text-amber-400">
                 {[...Array(t.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-current" />
+                  <Star key={i} className="w-5 h-5 fill-current" />
                 ))}
               </div>
 

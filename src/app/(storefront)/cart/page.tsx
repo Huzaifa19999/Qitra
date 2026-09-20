@@ -60,7 +60,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12 space-y-10">
+    <div className="max-w-8xl mx-auto px-6 lg:px-12 py-12 space-y-10">
       {/* Header */}
       <div className="space-y-2.5 border-b border-white/[0.06] pb-6">
         <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#dfba73]">
@@ -136,7 +136,7 @@ export default function CartPage() {
               href="/products"
               className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[#dfba73] hover:text-white transition-colors"
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <ArrowLeft className="w-4.5 h-3.5" />
               <span>Continue Browsing</span>
             </Link>
           </div>
@@ -144,7 +144,7 @@ export default function CartPage() {
 
         {/* Order Summary Sidebar */}
         <div className="w-full lg:w-[380px] shrink-0 sticky top-28">
-          <div className="rounded-3xl border border-white/[0.08] bg-[#0c0c10] p-7 space-y-6 shadow-2xl shadow-black/80">
+          <div className="rounded-xl border border-white/[0.08] bg-[#0c0c10] p-7 space-y-6 shadow-2xl shadow-black/80">
             <h2 className="font-heading text-2xl font-medium text-white tracking-tight">
               Order Summary
             </h2>

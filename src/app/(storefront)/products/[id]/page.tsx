@@ -44,7 +44,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12 space-y-16">
+    <div className="max-w-8xl mx-auto px-6 lg:px-12 py-12 space-y-16">
       {/* ================= BREADCRUMBS ================= */}
       <nav className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-gray-500">
         <Link href="/" className="hover:text-white transition-colors">
@@ -86,7 +86,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
 
         {/* DETAILS & ACTIONS */}
-        <div className="flex flex-col justify-center space-y-8">
+        <div className="flex flex-col justify-center space-y-8 leading-10">
           <div className="space-y-3">
             <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-medium text-white tracking-tight leading-tight">
               {product.name}

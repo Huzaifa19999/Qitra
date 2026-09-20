@@ -14,7 +14,7 @@ export default function StorefrontLayout({
         <Navbar />
       </Suspense>
 
-      <main className="w-full min-h-screen bg-[#090a0f] text-[#e2e8f0] pt-[130px] sm:pt-[150px]">
+      <main className="w-full flex justify-center items-center min-h-screen bg-[#090a0f] text-[#e2e8f0] pt-[130px] sm:pt-[150px]">
         {children}
       </main>
 
